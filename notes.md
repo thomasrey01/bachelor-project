@@ -21,3 +21,6 @@ contact study advisor for bachelor's colloqium:
 
 ## 30/05/2023
 
+### Questions: 
+    Arno responding late
+    Hashing necessary?
