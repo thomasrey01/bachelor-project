@@ -1,40 +1,28 @@
+#include "map.h"
 #include <iostream>
 #include <fstream>
-#include <string>
-#include <vector>
-#include <sstream>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 using namespace std;
 
-int main()
+
+int main(int argc, char *argv[])
 {
-    string fname;
-    cout<<"Enter file name: ";
-    cin>>fname;
+    if (argc != 2) {
+        cout << "Invalid arguments\n ";
+        cout << "Usage " << argv[0] << " <path to csv>\n";
+        exit(1);
+    }
+    fstream file (argv[0], ios::in);
 
-    vector<vector<string>> content;
-    vector<string> row;
-    string line, word;
-
-    fstream file (fname, ios::in);
-    if (file.is_open()) {
-        while (getline(file, line)) {
-            row.clear();
-            stringstream str(line);
-
-            while (getline(str, word, ','))
-                row.push_back(word);
-            content.push_back(row);
-        }
-    } else {
-        cout << "Could not open the file " << fname << "\n";
+    if (!file.is_open()) {
+        cout << "Error opening file\n";
+        exit(1);
     }
 
-    for (int i = 0; i < content.size(); i++) {
-        for (int j = 0; j < content[i].size(); j++) {
-            cout << content[i][j] << " ";
-        }
-        cout << "\n";
-    }
-    return 0;
+    Map map(&file);
+    
+    // map.readCSV(argv[1]);
 }

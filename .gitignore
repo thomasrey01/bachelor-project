@@ -4,3 +4,5 @@ Makefile
 transport
 CMakeFiles/**
 CMakeFiles
+.vscode/**
+.vscode/

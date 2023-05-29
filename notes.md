@@ -1,3 +1,7 @@
+# Notes
+
+## 22/05/2023
+
 kbunte
 
 contact arno:
@@ -14,4 +18,6 @@ contact study advisor for bachelor's colloqium:
     ask about deadline
     individual presentations
     risks and problems
+
+## 30/05/2023
 
