@@ -3,13 +3,13 @@
 
 #include <fstream>
 #include <map>
-#include "triple.h"
+#include "box.h"
 
 using namespace std;
 
 class Map {
     private:
-        map<string, Triple> coordMap;
+        map<string, Box> coordMap;
         fstream *mapFile;
         void readCSV(fstream *file);
 

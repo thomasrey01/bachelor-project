@@ -24,3 +24,10 @@ contact study advisor for bachelor's colloqium:
 ### Questions: 
     Arno responding late
     Hashing necessary?
+
+contact study advisor
+
+## 05/05/2023
+
+Memory (hashmap) vs disk (database) for data retrieval
+height checking for lower level only
