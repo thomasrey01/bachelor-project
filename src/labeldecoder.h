@@ -1,6 +1,12 @@
 #ifndef LABELDECODER_H
 #define LABELDECODER_H
 
+#include <string>
+#include <assert.h>
+#include <iostream>
+
+using namespace std;
+
 enum labelType {
     extended=1,
     compact=2
@@ -18,8 +24,7 @@ struct Label {
 
 class LabelDecoder {
     public: 
-
-        struct Label decode(int type, char label[]);
+        Label *decode(labelType type, string label);
 };
 
 #endif
