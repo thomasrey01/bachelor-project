@@ -29,5 +29,10 @@ contact study advisor
 
 ## 05/05/2023
 
-Memory (hashmap) vs disk (database) for data retrieval
+1). Memory (hashmap) vs disk (database) for data retrieval
 height checking for lower level only
+
+### Questions: 
+    look at 1.
+    academic advisor response, dates and latest from both supervisors.
+    api 

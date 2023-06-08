@@ -18,7 +18,7 @@ enum facility {
 
 struct Label {
     enum facility fac;
-    enum labelType label;
+    enum labelType type;
     int aisle, column, height;
 };
 
