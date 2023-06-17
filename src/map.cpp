@@ -1,7 +1,21 @@
 #include "map.h"
 #include <iostream>
+#include <vector>
+#include <sstream>
 
-void readCSV(fstream *file)
+void Map::readCSV(fstream *file)
 {
-    std::cout << "Not yet implemented";
+    vector<vector<string>> content;
+    string line;
+
+    vector<string> row;
+
+    if (file->is_open()) {
+        while (getline(*file, line)) {
+            stringstream str(line);
+            Label lab;
+            coordMap[]
+        }
+    }
+
 }

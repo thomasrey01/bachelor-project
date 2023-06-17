@@ -32,7 +32,19 @@ contact study advisor
 1). Memory (hashmap) vs disk (database) for data retrieval
 height checking for lower level only
 
+
 ### Questions: 
     look at 1.
     academic advisor response, dates and latest from both supervisors.
     api 
+
+have meeting with academic advisor:
+    some courses have deadlines
+    discussion about master's
+
+better with memory (not too many constraints
+send email to biehl about dates
+raspberry pi b+
+email arno floor plan, for an aisle, how many rows (begin and end number)
+how many stickers per aisle (min to max) (what codes are in the aisle)
+
