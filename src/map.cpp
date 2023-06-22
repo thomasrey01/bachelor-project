@@ -14,7 +14,7 @@ void Map::readCSV(fstream *file)
         while (getline(*file, line)) {
             stringstream str(line);
             Label lab;
-            coordMap[]
+            coordMap
         }
     }
 

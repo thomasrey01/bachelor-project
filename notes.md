@@ -1,4 +1,5 @@
-# Notes
+#
+Notes
 
 ## 22/05/2023
 
@@ -47,4 +48,14 @@ send email to biehl about dates
 raspberry pi b+
 email arno floor plan, for an aisle, how many rows (begin and end number)
 how many stickers per aisle (min to max) (what codes are in the aisle)
+
+## 22/06/2023
+
+### Questions
+    Back and forth with Cor
+    possible to do presentation and afterwards hand in document
+
+Add data to git repo
+continue emailing Cor, ask about how to know which labels are on the floor plan
+for thesis: research into pattern recognition for extracting floor plan, the optimal transport, pixel to coords
 
