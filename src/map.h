@@ -18,7 +18,6 @@ class Map {
     public:
         Map(fstream *file)
         {
-
             labelDecoder = LabelDecoder();
             this -> mapFile = file;
             readCSV(file);

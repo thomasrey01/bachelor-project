@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
         cout << "Usage " << argv[0] << " <path to csv>\n";
         exit(1);
     }
-    fstream file (argv[0], ios::in);
+    fstream file (argv[1], ios::in);
 
     if (!file.is_open()) {
         cout << "Error opening file\n";

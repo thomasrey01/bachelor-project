@@ -1,14 +1,13 @@
 #include "labeldecoder.h"
 
-Label *LabelDecoder::decode(labelType type, string label)
-{
+Label *LabelDecoder::decode(string label)
+{ // TO FINISH LATER AFTER API AND ALL LABELS ARE GIVEN
     // Taking into account the two types of labels: A01-01-1 and B-18-01
     if (label.length() <= 0) {
         std::cerr << "Cannot decode empty label\n";
         return nullptr;
     }
     Label *lab;
-    lab->type = type;
     switch (label[0]) {
         case 'A':
             lab->fac = A;
@@ -34,6 +33,13 @@ Label *LabelDecoder::decode(labelType type, string label)
         case 'H':
             lab->fac = H;
             break;
+    }
+
+    if (label[1] == '-') {
+        lab->type = extended;
+        lab->
+    } else {
+        lab->type = compact;
     }
 
     return lab;

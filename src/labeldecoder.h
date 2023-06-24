@@ -24,7 +24,7 @@ struct Label {
 
 class LabelDecoder {
     public: 
-        Label *decode(labelType type, string label);
+        Label *decode(string label);
 };
 
 #endif
