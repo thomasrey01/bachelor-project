@@ -1,0 +1,70 @@
+number_groups: 2
+shelf_height: 4 #default for now, each subgroup/aisle may have different heights
+group0:
+    number_shelves: 15
+    length: 55000
+    padding: 600
+    uneven: 
+        case: true
+        position: "first"
+    aisle_spacing: 1880
+    num_subgroups: 8
+    subgroup0:
+        number_aisles: 1
+        aisle_gap: 200
+    subgroup1: 
+        number_aisles: 2
+        aisle_gap: 220
+    subgroup2: 
+        number_aisles: 1
+        aisle_gap: 200
+    subgroup3: 
+        number_aisles: 1
+        aisle_gap: 720
+    subgroup4: 
+        number_aisles: 1
+        aisle_gap: 200
+    subgroup5: 
+        number_aisles: 2
+        aisle_gap: 220
+    subgroup6:
+        number_aisles: 1
+        aisle_gap: 200
+    subgroup7:
+        number_aisles: 1
+        aisle_gap: 600
+group1:
+    number_shelves: 15
+    length: 55000
+    padding: 2950
+    uneven:
+        case: true
+        position: "last"
+    aisle_spacing: 2950
+    num_subgroups: 8
+    subgroup0:
+        number_aisles: 1
+        aisle_gap: 200
+    subgroup1:
+        number_aisles: 1
+        aisle_gap: 360
+    subgroup2:
+        number_aisles: 1
+        aisle_gap: 200
+    subgroup3:
+        number_aisles: 1
+        aisle_gap: 400
+    subgroup4:
+        number_aisles: 1
+        aisle_gap: 200
+    subgroup5:
+        number_aisles: 1
+        aisle_gap: 400
+    subgroup6:
+        number_aisles: 1
+        aisle_gap: 200
+    subgroup7:
+        number_aisles: 1
+        aisle_gap: 400
+    
+    

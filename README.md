@@ -13,7 +13,7 @@ Width of every shelf: 1100
 
 Face 0: facing in positive Z. Face 1: facing in negative Z
 
-Only first "grouping" of aisles show measurements between aisles.
+Only first "grouping" (A) of aisles show measurements between aisles.
 
 ### Database flow
     if database is empty then: 
