@@ -37,7 +37,7 @@ Label *LabelDecoder::decode(string label)
 
     if (label[1] == '-') {
         lab->type = extended;
-        lab->
+        // lab->
     } else {
         lab->type = compact;
     }
