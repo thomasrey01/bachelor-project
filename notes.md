@@ -59,3 +59,9 @@ Add data to git repo
 continue emailing Cor, ask about how to know which labels are on the floor plan
 for thesis: research into pattern recognition for extracting floor plan, the optimal transport, pixel to coords
 
+# 14/07/2023
+
+work with height of stickers
+band from shelf uncertainty
+
+

@@ -1,5 +1,6 @@
-number_groups: 2
-shelf_height: 4 #default for now, each subgroup/aisle may have different heights
+num_groups: 2
+num_rows: 4 # default for now, each subgroup/aisle may have different number of rows
+shelf_height: 700 # default for now, 
 group0:
     number_shelves: 15
     length: 55000
