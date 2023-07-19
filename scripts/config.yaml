@@ -1,13 +1,13 @@
 num_groups: 2
 num_rows: 4 # default for now, each subgroup/aisle may have different number of rows
 shelf_height: 700 # default for now, 
+shelf_width: 1100
 group0:
     number_shelves: 15
     length: 55000
     padding: 600
     uneven: 
-        case: true
-        position: "first"
+        case: false
     aisle_spacing: 1880
     num_subgroups: 8
     subgroup0:
