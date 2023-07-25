@@ -4,20 +4,51 @@ import yaml
 class WriteCSV:
     def __init__(self, path:str):
         self.file = open(path, 'w', encoding="UTF-8")
+        self.facility = "A"
+        self.aisle = "01"
+        self.column = "01"
+        self.height = "1"
         self.writer = csv.writer(self.file)
         header = ['Tag', 'x0', 'x1', 'y0', 'y1', 'z', 'Face']
         self.writer.writerow(header)
     
-    def get_next_tag():
-        pass
+    def next_tag(self):
+        height = int(self.height)
+        column = int(self.column)
+        
+        if height == 4 and column == 15:
+            aisle = int(self.aisle)
+            aisle += 1
+            self.aisle = ""
+            if aisle < 10:
+                self.aisle = "0"
+            self.aisle += str(aisle)
+            self.column = "01"
+            self.height = "1"
+            height = 1
+        
+        if height == 4:
+            self.height = "1"
+            self.column = ""
+            column += 1
+            if column < 10:
+                self.column = "0"
+            self.column += str(column)
+        else:
+            height += 1
+            self.height = str(height)
+        
+            
+        
+
     
     def write_row(self, height, x, y, length_shelf, face, num_shelves, num_rows, z):
         temp_x = x
         temp_y = y
         for _ in range(num_rows):
             for _ in range(num_shelves):
-                tag = self.get_next_tag()
-                row = ['Tag Placeholder',
+                tag = self.facility + self.aisle + "-" + self.column + "-" + self.height
+                row = [ tag,
                         str(round(temp_x, 1)),
                         str(round(temp_x+length_shelf, 1)),
                         str(round(temp_y, 1)),
@@ -26,6 +57,7 @@ class WriteCSV:
                         str(round(face, 1))
                     ]
                 self.writer.writerow(row)
+                self.next_tag()
                 temp_x += length_shelf
             temp_y += height
     
