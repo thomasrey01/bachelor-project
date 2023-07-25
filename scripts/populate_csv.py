@@ -8,12 +8,23 @@ class WriteCSV:
         header = ['Tag', 'x0', 'x1', 'y0', 'y1', 'z', 'Face']
         self.writer.writerow(header)
     
+    def get_next_tag():
+        pass
+    
     def write_row(self, height, x, y, length_shelf, face, num_shelves, num_rows, z):
         temp_x = x
         temp_y = y
         for _ in range(num_rows):
             for _ in range(num_shelves):
-                row = ['Tag Placeholder', str(temp_x), str(temp_x+length_shelf), str(temp_y), str(temp_y+height), str(z), str(face)]
+                tag = self.get_next_tag()
+                row = ['Tag Placeholder',
+                        str(round(temp_x, 1)),
+                        str(round(temp_x+length_shelf, 1)),
+                        str(round(temp_y, 1)),
+                        str(round(temp_y+height, 1)),
+                        str(round(z, 1)),
+                        str(round(face, 1))
+                    ]
                 self.writer.writerow(row)
                 temp_x += length_shelf
             temp_y += height
@@ -36,7 +47,7 @@ with open('./config.yaml') as f:
         group = "group" + str(i)
         aisle_spacing = data_map[group]["aisle_spacing"]
         num_shelves = data_map[group]["number_shelves"]
-        length_shelf = round(data_map[group]["length"] / num_shelves, 1)
+        length_shelf = data_map[group]["length"] / num_shelves
         is_uneven = data_map[group]["uneven"]["case"]
         z += data_map[group]["padding"]
         if is_uneven:
