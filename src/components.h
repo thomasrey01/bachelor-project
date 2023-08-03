@@ -1,6 +1,8 @@
 #ifndef COMPONENTS_H
 #define COMPONENTS_H
+#include "utils/md5.h"
 #include <cstdlib>
+#include <string>
 #include <vector>
 
 using namespace std;
@@ -33,6 +35,8 @@ class Box {
 
         vector<coord> getCoords();
 
+        double getHeight();
+
         void setValues(struct coord left, struct coord right, int face, int z);
 
         bool operator==(Box const &b);
@@ -42,6 +46,12 @@ class Box {
 class Shelf {
     vector<Box> boxes;
     
+    string getHash() {
+        string heights = "";
+        for (int i = 0; i < boxes.size(); i++) {
+            heights.append(to_string(boxes[i].getHeight()));
+        }
+    }
 };
 
 #endif
