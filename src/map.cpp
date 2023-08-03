@@ -26,4 +26,5 @@ void Map::readCSV(fstream *file)
             content.push_back(row);
         }
     }
+    
 }

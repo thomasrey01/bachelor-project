@@ -1,6 +1,9 @@
-#ifndef TRIPLE_H
-#define TRIPLE_H
+#ifndef COMPONENTS_H
+#define COMPONENTS_H
 #include <cstdlib>
+#include <vector>
+
+using namespace std;
 
 class Box {
 
@@ -26,10 +29,19 @@ class Box {
             this->face = face;
             this->z = z;
             height = abs(left.y - right.y);
-        }
+        };
+
+        vector<coord> getCoords();
+
+        void setValues(struct coord left, struct coord right, int face, int z);
 
         bool operator==(Box const &b);
         
+};
+
+class Shelf {
+    vector<Box> boxes;
+    
 };
 
 #endif
