@@ -11,6 +11,7 @@ class Box {
 
     private:
         double height;
+        double z;
         struct coord bottomLeft;
         struct coord topRight;
         int face;
@@ -19,10 +20,11 @@ class Box {
         
         Box(); // Empty constructor
 
-        Box(struct coord left, struct coord right, int face) {
+        Box(struct coord left, struct coord right, int face, int z) {
             this->bottomLeft = left;
             this->topRight = right;
             this->face = face;
+            this->z = z;
             height = abs(left.y - right.y);
         }
 

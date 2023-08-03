@@ -64,4 +64,9 @@ for thesis: research into pattern recognition for extracting floor plan, the opt
 work with height of stickers
 band from shelf uncertainty
 
+# 26/07/2023
 
+TODO: abstraction of label decoder for different types of labels
+start on thesis. emphasizing on green energy/coding (e.g. hashing of shelves).
+Model aisle and shelves in classes instead of the whole map. Will make hashing easier, can have a method for
+each aisle/row. 

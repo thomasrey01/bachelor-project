@@ -39,9 +39,6 @@ class WriteCSV:
             self.height = str(height)
         
             
-        
-
-    
     def write_row(self, height, x, y, length_shelf, face, num_shelves, num_rows, z):
         temp_x = x
         temp_y = y
