@@ -12,26 +12,30 @@ using namespace std;
  * Child nodes can either be a merkel node or a leaf.
  * When it's a Merkel node, its children are other nodes, when it's a leaf
  * there are no children but instead an instance of an object. Either shelf or box
-*/
+ */
 template <class T>
-class MerkelNode {
+class MerkelNode
+{
     T leftNode;
     T rightNode;
     string hash;
     bool isLeaf;
 
-    MerkelNode() {
+    MerkelNode()
+    {
         isLeaf = false;
     }
 
-    MerkelNode(T leftNode, T rightNode, string hash) {
+    MerkelNode(T leftNode, T rightNode)
+    {
         this->leftNode = leftNode;
         this->rightNode = rightNode;
         this->hash = makeHash(leftNode, rightNode);
         isLeaf = false;
     }
 
-    string makeHash(T leftNode, T rightNode) {
+    string makeHash(T leftNode, T rightNode)
+    {
         string concatedHashes = "";
         concatedHashes.append(leftNode.hash);
         concatedHashes.append(rightNode.hash);
@@ -40,42 +44,70 @@ class MerkelNode {
 };
 
 template <class T>
-class MerkelLeaf {
+class MerkelLeaf
+{
     T content;
     string hash;
     bool isLeaf;
+
+    MerkelLeaf(T content, string hash) {
+        this->content = content;
+        this->hash = hash;
+    }
 };
 
 template <class T>
-class MerkelTree {
+class MerkelTree
+{
     T root;
     string hash;
 
-    MerkelTree(T root) {
-        this->root = root;
-        this->hash = root.hash;       
+    MerkelTree(vector<int> numbers) {
+        T res =  makeMerkelTree(numbers);
+        this->root = res;
+        this->hash = res.hash;
     }
 
+    T makeMerkelTree(vector<int> numbers)
+    {
+        int numIter = numbers.size();
+        int depth = ceil(log2(numbers.size()));
+        cout << "depth is " << depth << endl;
+        vector<T> children;
+        for (auto num : numbers) {
+            MerkelLeaf m(num, md5(to_string(num)));
+            children.append(m);
+        }
+        for (int i = 0; i < depth; i++)
+        {
+            vector<T> newChildren;
+            for (int j = 0; j < numIter; j+=2)
+            {
 
+                if (j + 1 == numIter) {
+                    MerkelNode m(children[j], children[j]);
+                    newChildren.append(m);
+                }
+                MerkelNode m(children[j], children[j+1]);
+                newChildren.append(m);
+            }
+            for (auto child : children) {
+                if (child != nullptr) {
+                    free(child);
+                }
+            }
+            children.clear();
+            children = newChildren;
+            numIter = numIter / 2 + (numIter > 1 ? numIter % 2 : 0);
+        }
+        cout << children.size() << endl;
+        return children[0];
+    }
 };
 
-string getMerkelRoot(vector<int> numbers) {
-    int numIter = numbers.size();
-    int depth = ceil(log2(numbers.size()));
-    cout << "depth is " << depth << endl;
-    for (int i = 0; i < depth; i++) {
-        for (int j = 0; j < numIter; j++) {
-            // These iterations are correct to build the tree.
-            // TODO: Define the tree
-        }
-        numIter = numIter / 2 + (numIter > 1 ? numIter % 2 : 0);
-    }
-    return "";
-}
-
-int main() {
+int main()
+{
     vector<int> numbers = {1, 2, 3, 4, 5};
-    // string res = getMerkelRoot(numbers);
-    string some = "2";
-    cout << md5(some) << endl;
+    MerkelTree res(numbers);
+    
 }

@@ -46,16 +46,7 @@ class Box {
 class Shelf {
     vector<Box> boxes;
     
-    string getHash() {
-        string heights = "";
-        for (int i = 0; i < boxes.size(); i++) {
-            heights.append(to_string(boxes[i].getHeight())); // Problem for the future:
-            // floating point imprecision could impact hash of height. Fix later, I guess
-            // round.
-
-        }
-        return md5(heights);
-    }
+    string getHash();
 };
 
 #endif

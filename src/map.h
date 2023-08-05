@@ -3,7 +3,7 @@
 
 #include <fstream>
 #include <map>
-#include "box.h"
+#include "components.h"
 #include "labeldecoder.h"
 
 using namespace std;

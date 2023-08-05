@@ -18,3 +18,13 @@ vector<Box::coord> Box::getCoords() {
     vector<struct coord> vec = {this->bottomLeft, this->topRight};
     return vec;
 }
+
+string Shelf::getHash() {
+    vector<Box> boxes = this->boxes;
+    string heights = "";
+        
+    int numBoxes = boxes.size();
+    for (int i = 0; i < numBoxes; i++) {
+        continue;
+    }
+}
