@@ -1,7 +1,9 @@
 #include <vector>
+#include <string>
+#include <cmath>
 #include <iostream>
-#include "merklecpp.h"
 #include "../src/utils/md5.h"
+#include "../src/components.h"
 
 using namespace std;
 
@@ -9,7 +11,7 @@ template <class T>
 class Node
 {
 public:
-    virtual string getHash() {return hash;}
+    virtual string getHash() { return this->hash; }
     string makeHash(Node<T> leftNode, Node<T> rightNode)
     {
         string concatedHashes = "";
@@ -18,12 +20,12 @@ public:
         return md5(concatedHashes);
     }
 
-    void setLeaf(bool leaf) {
-        this->isLeaf = leaf;
+    string makeHash(T content)
+    {
+        return md5(to_string(content));
     }
 
-private:
-    T content;
+protected:
     string hash;
     bool isLeaf;
 };
@@ -34,25 +36,28 @@ class MerkleNode : public Node<T>
     Node<T> leftNode;
     Node<T> rightNode;
 
-    public:
-        MerkleNode(Node<T> leftNode, Node<T> rightNode)
-        {
-            this->leftNode = leftNode;
-            this->rightNode = rightNode;
-            this->hash = makeHash(leftNode, rightNode);
-            setLeaf(false);
-        }
+public:
+    MerkleNode(Node<T> leftNode, Node<T> rightNode)
+    {
+        this->leftNode = leftNode;
+        this->rightNode = rightNode;
+        this->hash = this->makeHash(leftNode, rightNode);
+        this->isLeaf = false;
+    }
 };
 
 template <class T>
 class MerkleLeaf : public Node<T>
 {
-    public:
-        MerkleLeaf(T content) {
-            this->content = content;
-            this->hash = md5(to_string(content));
-            setLeaf(true);
-        }
+    T content;
+
+public:
+    MerkleLeaf(T content)
+    {
+        this->content = content;
+        this->hash = md5(to_string(content));
+        this->isLeaf = true;
+    }
 };
 
 template <class T>
@@ -61,7 +66,7 @@ class MerkleTree
     Node<T> root;
     string hash;
 
-    Node<T> makeMerkleRoot(vector<T>numbers)
+    Node<T> makeMerkleRoot(vector<T> numbers)
     {
         int numIter = numbers.size();
         int depth = ceil(log2(numbers.size()));
@@ -71,7 +76,7 @@ class MerkleTree
         {
             MerkleLeaf m(num);
 
-            children.append(m);
+            children.insert(children.end(), m);
         }
         for (int i = 0; i < depth; i++)
         {
@@ -81,14 +86,10 @@ class MerkleTree
                 if (j + 1 == numIter)
                 {
                     MerkleNode m(children[j], children[j]);
-                    newChildren.append(m);
+                    newChildren.insert(newChildren.end(), m);
                 }
                 MerkleNode m(children[j], children[j + 1]);
-                newChildren.append(m);
-            }
-            for (auto child : children)
-            {
-                delete(&child);
+                newChildren.insert(newChildren.end(), m);
             }
             children.clear();
             children = newChildren;
@@ -98,17 +99,22 @@ class MerkleTree
         return children[0];
     }
 
-    public:
-        MerkleTree(vector<T> numbers)
-        {
-            Node<T> root = makeMerkleRoot(numbers);
-            this->root = root;
-            this->hash = root.getHash();
-        }
+public:
+    MerkleTree(vector<T> numbers)
+    {
+        Node<T> root = makeMerkleRoot(numbers);
+        this->root = root;
+        this->hash = root.getHash();
+    }
+
+    string getHash() {
+        return this->hash;
+    }
 };
 
 int main()
 {
-    vector<int> numbers = {1,2,3,4};
+    vector<int> numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 13};
     MerkleTree tree(numbers);
+    cout << tree.getHash() << endl;
 }
