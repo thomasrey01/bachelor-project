@@ -12,7 +12,6 @@ class Node
 {
 public:
     virtual string getHash() { return this->hash; }
-    virtual Node<T> *getLeftChild() { return nullptr }
     string makeHash(Node<T> leftNode, Node<T> rightNode)
     {
         string concatedHashes = "";
@@ -55,7 +54,7 @@ public:
     T content;
 
 public:
-    MerkleLeaf(T content, Node<T> parentNode)
+    MerkleLeaf(T content, Node<T> *parentNode)
     {
         this->content = content;
         this->hash = md5(to_string(content));
@@ -77,7 +76,7 @@ class MerkleTree
         vector<Node<T>> children;
         for (auto num : numbers)
         {
-            MerkleLeaf m(num);
+            MerkleLeaf<T> m(num, nullptr);
 
             children.insert(children.end(), m);
         }
@@ -88,10 +87,13 @@ class MerkleTree
             {
                 if (j + 1 == numIter)
                 {
-                    MerkleNode m(children[j], children[j]);
+                    MerkleNode<T> m(children[j], children[j], nullptr);
+                    children[i].parentNode = &m;
                     newChildren.insert(newChildren.end(), m);
                 }
-                MerkleNode m(children[j], children[j + 1]);
+                MerkleNode<T> m(children[j], children[j + 1], nullptr);
+                children[j].parentNode = &m;
+                children[j+1].parentNode = &m;
                 newChildren.insert(newChildren.end(), m);
             }
             children.clear();
