@@ -12,6 +12,7 @@ class Node
 {
 public:
     virtual string getHash() { return this->hash; }
+    virtual Node<T> *getLeftChild() { return nullptr }
     string makeHash(Node<T> leftNode, Node<T> rightNode)
     {
         string concatedHashes = "";
@@ -25,22 +26,23 @@ public:
         return md5(to_string(content));
     }
 
-protected:
     string hash;
     bool isLeaf;
+    Node<T> *parentNode;
 };
 
 template <class T>
 class MerkleNode : public Node<T>
 {
-    Node<T> leftNode;
-    Node<T> rightNode;
-
+    
 public:
-    MerkleNode(Node<T> leftNode, Node<T> rightNode)
+    Node<T> leftNode;
+    Node<T> rightNode;  
+    MerkleNode(Node<T> leftNode, Node<T> rightNode, Node<T> *parentNode)
     {
         this->leftNode = leftNode;
         this->rightNode = rightNode;
+        this->parentNode = parentNode;
         this->hash = this->makeHash(leftNode, rightNode);
         this->isLeaf = false;
     }
@@ -49,14 +51,16 @@ public:
 template <class T>
 class MerkleLeaf : public Node<T>
 {
+public:
     T content;
 
 public:
-    MerkleLeaf(T content)
+    MerkleLeaf(T content, Node<T> parentNode)
     {
         this->content = content;
         this->hash = md5(to_string(content));
         this->isLeaf = true;
+        this->parentNode = parentNode;
     }
 };
 
@@ -70,7 +74,6 @@ class MerkleTree
     {
         int numIter = numbers.size();
         int depth = ceil(log2(numbers.size()));
-        cout << "depth is " << depth << endl;
         vector<Node<T>> children;
         for (auto num : numbers)
         {
@@ -95,7 +98,6 @@ class MerkleTree
             children = newChildren;
             numIter = numIter / 2 + (numIter > 1 ? numIter % 2 : 0);
         }
-        cout << children.size() << endl;
         return children[0];
     }
 
@@ -107,14 +109,41 @@ public:
         this->hash = root.getHash();
     }
 
-    string getHash() {
+    string getHash()
+    {
         return this->hash;
+    }
+
+    void preOrderPrint(Node<T> node)
+    {
+        /*
+         * This function doesn't work since dynamic casting always returns null.
+         * This is likely because I am casting them to the wrong class.
+         * TODO: Review and fix this stuff.
+        */
+
+        if (node.isLeaf)
+        {
+            MerkleLeaf<T> *leaf = dynamic_cast<MerkleLeaf<T>*>(&node);
+            cout << "leaf content: " << leaf->content << endl;
+            return;
+        }
+        cout << node.getHash() << endl;
+        MerkleNode<T> *node_ptr = dynamic_cast<MerkleNode<T>*>(&node);
+        preOrderPrint(node_ptr->leftNode);
+        preOrderPrint(node_ptr->rightNode);
+    }
+
+    void preOrderPrint()
+    {
+        preOrderPrint(this->root);
     }
 };
 
 int main()
 {
-    vector<int> numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 13};
+    vector<int> numbers = {1};
     MerkleTree tree(numbers);
     cout << tree.getHash() << endl;
+    tree.preOrderPrint();
 }
