@@ -13,11 +13,11 @@ using namespace std;
  * When it's a Merkel node, its children are other nodes, when it's a leaf
  * there are no children but instead an instance of an object. Either shelf or box
  */
-template <class T>
+template <class T, class S>
 class MerkelNode
 {
     T leftNode;
-    T rightNode;
+    S rightNode;
     string hash;
     bool isLeaf;
 
@@ -26,7 +26,7 @@ class MerkelNode
         isLeaf = false;
     }
 
-    MerkelNode(T leftNode, T rightNode)
+    MerkelNode(T leftNode, S rightNode)
     {
         this->leftNode = leftNode;
         this->rightNode = rightNode;
@@ -34,7 +34,7 @@ class MerkelNode
         isLeaf = false;
     }
 
-    string makeHash(T leftNode, T rightNode)
+    string makeHash(T leftNode, S rightNode)
     {
         string concatedHashes = "";
         concatedHashes.append(leftNode.hash);
@@ -56,10 +56,9 @@ class MerkelLeaf
     }
 };
 
-template <class T>
 class MerkelTree
 {
-    T root;
+    MerkelNode root;
     string hash;
 
     MerkelTree(vector<int> numbers) {
@@ -68,7 +67,7 @@ class MerkelTree
         this->hash = res.hash;
     }
 
-    T makeMerkelTree(vector<int> numbers)
+    T makeMerkelRoot(vector<int> numbers)
     {
         int numIter = numbers.size();
         int depth = ceil(log2(numbers.size()));
@@ -76,6 +75,7 @@ class MerkelTree
         vector<T> children;
         for (auto num : numbers) {
             MerkelLeaf m(num, md5(to_string(num)));
+            
             children.append(m);
         }
         for (int i = 0; i < depth; i++)
@@ -83,7 +83,6 @@ class MerkelTree
             vector<T> newChildren;
             for (int j = 0; j < numIter; j+=2)
             {
-
                 if (j + 1 == numIter) {
                     MerkelNode m(children[j], children[j]);
                     newChildren.append(m);
@@ -108,6 +107,6 @@ class MerkelTree
 int main()
 {
     vector<int> numbers = {1, 2, 3, 4, 5};
-    MerkelTree res(numbers);
+    MerkelTree tree(numbers);
     
 }
