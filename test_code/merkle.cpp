@@ -2,8 +2,8 @@
 #include <string>
 #include <cmath>
 #include <iostream>
+#include <map>
 #include "../src/utils/md5.h"
-#include "../src/components.h"
 
 using namespace std;
 
@@ -35,9 +35,9 @@ class MerkleNode : public Node<T>
 {
     
 public:
-    Node<T> leftNode;
-    Node<T> rightNode;  
-    MerkleNode(Node<T> leftNode, Node<T> rightNode, Node<T> *parentNode)
+    Node<T> *leftNode;
+    Node<T> *rightNode;  
+    MerkleNode(Node<T> *leftNode, Node<T> *rightNode, Node<T> *parentNode)
     {
         this->leftNode = leftNode;
         this->rightNode = rightNode;
@@ -69,38 +69,40 @@ class MerkleTree
     Node<T> root;
     string hash;
 
+    map<string, MerkleLeaf<T>*> leafMap;
+
     Node<T> makeMerkleRoot(vector<T> numbers)
     {
         int numIter = numbers.size();
         int depth = ceil(log2(numbers.size()));
-        vector<Node<T>> children;
+        vector<Node<T>*> children;
         for (auto num : numbers)
         {
             MerkleLeaf<T> m(num, nullptr);
-
-            children.insert(children.end(), m);
+            this->leafMap.insert_or_assign(this->hash, &m);
+            children.insert(children.end(), &m);
         }
         for (int i = 0; i < depth; i++)
         {
-            vector<Node<T>> newChildren;
+            vector<Node<T>*> newChildren;
             for (int j = 0; j < numIter; j += 2)
             {
                 if (j + 1 == numIter)
                 {
                     MerkleNode<T> m(children[j], children[j], nullptr);
-                    children[i].parentNode = &m;
-                    newChildren.insert(newChildren.end(), m);
+                    children[j]->parentNode = &m;
+                    newChildren.insert(newChildren.end(), &m);
                 }
                 MerkleNode<T> m(children[j], children[j + 1], nullptr);
-                children[j].parentNode = &m;
-                children[j+1].parentNode = &m;
-                newChildren.insert(newChildren.end(), m);
+                children[j]->parentNode = &m;
+                children[j+1]->parentNode = &m;
+                newChildren.insert(newChildren.end(), &m);
             }
             children.clear();
             children = newChildren;
             numIter = numIter / 2 + (numIter > 1 ? numIter % 2 : 0);
         }
-        return children[0];
+        return *children[0];
     }
 
 public:
@@ -124,14 +126,16 @@ public:
          * TODO: Review and fix this stuff.
         */
 
+       Node<T> *nodePtr = &node;
+
         if (node.isLeaf)
         {
-            MerkleLeaf<T> *leaf = dynamic_cast<MerkleLeaf<T>*>(&node);
+            MerkleLeaf<T> *leaf = dynamic_cast<MerkleLeaf<T>*>(nodePtr);
             cout << "leaf content: " << leaf->content << endl;
             return;
         }
         cout << node.getHash() << endl;
-        MerkleNode<T> *node_ptr = dynamic_cast<MerkleNode<T>*>(&node);
+        MerkleNode<T> *node_ptr = dynamic_cast<MerkleNode<T>*>(nodePtr);
         preOrderPrint(node_ptr->leftNode);
         preOrderPrint(node_ptr->rightNode);
     }
@@ -144,8 +148,20 @@ public:
 
 int main()
 {
-    vector<int> numbers = {1};
+    vector<int> numbers = {1, 2, 3, 4, 5, 6};
     MerkleTree tree(numbers);
     cout << tree.getHash() << endl;
+
     tree.preOrderPrint();
+
+    // MerkleLeaf<int> leaf(3, nullptr);
+
+    // vector<MerkleLeaf<int>> vec;
+    // vec.insert(vec.end(), leaf);
+
+    // Node<int> *node = &(vec[0]);
+
+    // MerkleLeaf<int> *newLeaf = dynamic_cast<MerkleLeaf<int>*>(node);
+
+    // cout << newLeaf->content << endl;
 }

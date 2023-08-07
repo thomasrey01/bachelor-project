@@ -25,6 +25,7 @@ string Shelf::getHash() {
         
     int numBoxes = boxes.size();
     for (int i = 0; i < numBoxes; i++) {
-        continue;
+        heights.append(to_string(boxes[i].getHeight()));
     }
+    return md5(heights);
 }
