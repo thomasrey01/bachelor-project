@@ -53,7 +53,6 @@ class MerkleLeaf : public Node<T>
 public:
     T content;
 
-public:
     MerkleLeaf(T content, Node<T> *parentNode)
     {
         this->content = content;
@@ -61,15 +60,28 @@ public:
         this->isLeaf = true;
         this->parentNode = parentNode;
     }
+
+    void updateTree() {
+        if (this->hash == md5(to_string(content))) {
+            cout << "No changes detected" << endl;
+            return;
+        }
+        
+    }
+
+private:
+    void updateTree(Node<T> *node) {
+        if (node == nullptr) {
+            return;
+        }
+        
+    }
 };
 
 template <class T>
 class MerkleTree
 {
-    Node<T> *root;
-    string hash;
-
-    map<string, MerkleLeaf<T>*> leafMap;
+    
 
     Node<T> *makeMerkleRoot(vector<T> numbers)
     {
@@ -79,7 +91,7 @@ class MerkleTree
         for (auto num : numbers)
         {
             MerkleLeaf<T>* m = new MerkleLeaf<T>(num, nullptr);
-            // this->leafMap.insert_or_assign(m.hash, &m);
+            this->leafMap.insert_or_assign(m->hash, m);
             children.insert(children.end(), m);
         }
         for (int i = 0; i < depth; i++)
@@ -92,6 +104,7 @@ class MerkleTree
                     MerkleNode<T> *m = new MerkleNode<T>(children[j], children[j], nullptr);
                     children[j]->parentNode = m;
                     newChildren.insert(newChildren.end(), m);
+                    break;
                 }
                 MerkleNode<T> *m = new MerkleNode<T>(children[j], children[j+1], nullptr);
                 children[j]->parentNode = m;
@@ -139,6 +152,12 @@ class MerkleTree
     }
 
 public:
+
+    Node<T> *root;
+    string hash;
+
+    map<string, MerkleLeaf<T>*> leafMap;
+
     MerkleTree(vector<T> numbers)
     {
         Node<T> *root = makeMerkleRoot(numbers);
@@ -164,10 +183,13 @@ public:
 
 int main()
 {
-    vector<int> numbers = {1, 2, 3};
+    vector<int> numbers = {1, 2, 3, 4, 5, 6};
+    vector<int> numbers2 = {2, 2, 3, 4, 5, 6};
     MerkleTree tree(numbers);
+    MerkleTree tree2(numbers2);
     cout << tree.getHash() << endl;
-
+    MerkleLeaf<int>* leaf = tree.leafMap.find(md5("1"));
+    cout << leaf->content << endl;
     tree.preOrderPrint();
     tree.clearTree();
 }
