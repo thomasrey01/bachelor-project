@@ -5,23 +5,22 @@
 #include <map>
 #include "components.h"
 #include "labeldecoder.h"
+#include "merkle.h"
 
 using namespace std;
 
 class Map {
     private:
-        map<string, Box> coordMap;
+        map<string, Shelf*> shelfMap;
         fstream *mapFile;
         void readCSV(fstream *file);
-        LabelDecoder labelDecoder;
+        MerkleTree<Shelf> *tree;
 
     public:
         Map(fstream *file)
         {
-            labelDecoder = LabelDecoder();
             this -> mapFile = file;
             readCSV(file);
-
         }
 };
 

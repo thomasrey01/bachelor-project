@@ -70,3 +70,8 @@ TODO: abstraction of label decoder for different types of labels
 start on thesis. emphasizing on green energy/coding (e.g. hashing of shelves).
 Model aisle and shelves in classes instead of the whole map. Will make hashing easier, can have a method for
 each aisle/row. 
+
+# 10/08/2023
+Cycle counting
+UCLA-slam
+Tag related with this

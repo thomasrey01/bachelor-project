@@ -45,7 +45,21 @@ class Box {
 
 class Shelf {
     vector<Box> boxes;
+    string heightString;
     
+public:
+
+    Shelf(vector<Box> boxes) {
+        this->boxes = boxes;
+        string heights = "";
+
+        for (int i = 0; i < boxes.size(); i++) {
+            heights.append(to_string(boxes[i].getHeight()));
+        }
+        this->heightString = heights;
+    }
+
+    string getString();
     string getHash();
 };
 

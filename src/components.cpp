@@ -19,13 +19,10 @@ vector<Box::coord> Box::getCoords() {
     return vec;
 }
 
+string Shelf::getString() {
+    return this->heightString;
+}
+
 string Shelf::getHash() {
-    vector<Box> boxes = this->boxes;
-    string heights = "";
-        
-    int numBoxes = boxes.size();
-    for (int i = 0; i < numBoxes; i++) {
-        heights.append(to_string(boxes[i].getHeight()));
-    }
-    return md5(heights);
+    return md5(this->heightString);
 }

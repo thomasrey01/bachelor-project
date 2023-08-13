@@ -1,3 +1,5 @@
+#ifndef MERKLE_H
+#define MERKLE_H
 #include <vector>
 #include <string>
 #include <cmath>
@@ -56,13 +58,13 @@ public:
     MerkleLeaf(T content, Node<T> *parentNode)
     {
         this->content = content;
-        this->hash = md5(to_string(content));
+        this->hash = content.getHash();
         this->isLeaf = true;
         this->parentNode = parentNode;
     }
 
     void updateTree() {
-        if (this->hash == md5(to_string(content))) {
+        if (this->hash == content.getHash()) {
             cout << "No changes detected" << endl;
             return;
         }
@@ -181,15 +183,4 @@ public:
 
 };
 
-int main()
-{
-    vector<int> numbers = {1, 2, 3, 4, 5, 6};
-    vector<int> numbers2 = {2, 2, 3, 4, 5, 6};
-    MerkleTree tree(numbers);
-    MerkleTree tree2(numbers2);
-    cout << tree.getHash() << endl;
-    MerkleLeaf<int>* leaf = tree.leafMap.find(md5("1"));
-    cout << leaf->content << endl;
-    tree.preOrderPrint();
-    tree.clearTree();
-}
+#endif
