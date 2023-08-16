@@ -1,4 +1,5 @@
 #include "map.h"
+#include "label.h"
 #include <iostream>
 #include <vector>
 #include <sstream>
@@ -12,23 +13,44 @@ void Map::readCSV(fstream *file)
 
     if (file->is_open())
     {
+        float x0, x1, y0, y1, z;
+        int face;
         int i = 0;
+        getline(*file, line); // discard the first line
         while (getline(*file, line))
         {
-            if (i == 10) {
-                break;
-            }
             i++;
             row.clear();
             stringstream str(line);
 
             getline(str, word, ',');
-            Label *label = labelDecoder.decode(word);
-            // while (getline(str, word, ','))
-            //     cout << word << " ";
-            cout << endl;
-            content.push_back(row);
+
+            LabelTypeA label = LabelTypeA(word);
+
+            getline(str, word, ',');
+            x0 = stof(word);
+            getline(str, word, ',');
+            x1 = stof(word);
+            getline(str, word, ',');
+            y0 = stof(word);
+            getline(str, word, ',');
+            y1 = stof(word);
+            getline(str, word, ',');
+            z = stof(word);
+            getline(str, word, ',');
+            face = stoi(word);
+
+            Box::coord left;
+            left.x = x0;
+            left.y = y0;
+            Box::coord right;
+            right.x = x1;
+            right.y = y1;
+
+            Box box(left, right, face, z);
+
         }
+        cout << endl;
     }
     
 }

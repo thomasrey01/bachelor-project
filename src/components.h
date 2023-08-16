@@ -7,57 +7,64 @@
 
 using namespace std;
 
-class Box {
+class Box
+{
 
-    struct coord {
+public:
+    struct coord
+    {
         double x;
         double y;
     };
 
-    private:
-        double height;
-        double z;
-        struct coord bottomLeft;
-        struct coord topRight;
-        int face;
+    Box(); // Empty constructor
 
-    public:
-        
-        Box(); // Empty constructor
+    Box(struct coord left, struct coord right, int face, int z)
+    {
+        this->bottomLeft = left;
+        this->topRight = right;
+        this->face = face;
+        this->z = z;
+        height = abs(left.y - right.y);
+    };
 
-        Box(struct coord left, struct coord right, int face, int z) {
-            this->bottomLeft = left;
-            this->topRight = right;
-            this->face = face;
-            this->z = z;
-            height = abs(left.y - right.y);
-        };
+    vector<coord> getCoords();
 
-        vector<coord> getCoords();
+    double getHeight();
 
-        double getHeight();
+    void setValues(struct coord left, struct coord right, int face, int z);
 
-        void setValues(struct coord left, struct coord right, int face, int z);
+    bool operator==(Box const &b);
 
-        bool operator==(Box const &b);
-        
+private:
+    double height;
+    double z;
+    struct coord bottomLeft;
+    struct coord topRight;
+    int face;
 };
 
-class Shelf {
+class Shelf
+{
     vector<Box> boxes;
     string heightString;
-    
-public:
 
-    Shelf(vector<Box> boxes) {
+public:
+    Shelf(vector<Box> boxes)
+    {
         this->boxes = boxes;
         string heights = "";
 
-        for (int i = 0; i < boxes.size(); i++) {
+        for (int i = 0; i < boxes.size(); i++)
+        {
             heights.append(to_string(boxes[i].getHeight()));
         }
         this->heightString = heights;
     }
+
+    Shelf();
+
+    void addBox(Box box);
 
     string getString();
     string getHash();
