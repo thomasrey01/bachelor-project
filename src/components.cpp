@@ -6,6 +6,10 @@ bool Box::operator==(const Box &b)
     return this->bottomLeft.y == b.bottomLeft.y && this->topRight.y == b.topRight.y;
 }
 
+double Box::getHeight() {
+    return abs(this->topRight.y - this->bottomLeft.y);
+}
+
 void Box::setValues(struct coord left, struct coord right, int face, int z) {
             this->bottomLeft = left;
             this->topRight = right;
@@ -26,3 +30,9 @@ string Shelf::getString() {
 string Shelf::getHash() {
     return md5(this->heightString);
 }
+
+void Shelf::addBox(Box box) {
+    this->boxes.insert(boxes.end(), box);
+    this->heightString.append(to_string(box.getHeight()));
+}
+

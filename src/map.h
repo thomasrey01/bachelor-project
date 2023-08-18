@@ -4,14 +4,14 @@
 #include <fstream>
 #include <map>
 #include "components.h"
-#include "labeldecoder.h"
+#include "label.h"
 #include "merkle.h"
 
-using namespace std;
 
 class Map {
     private:
-        map<string, Shelf*> shelfMap;
+        std::map<std::string, Shelf*> shelfMap;
+        std::map<std::string, Label*> LabelMap;
         fstream *mapFile;
         void readCSV(fstream *file);
         MerkleTree<Shelf> *tree;

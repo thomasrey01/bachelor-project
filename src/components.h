@@ -17,7 +17,7 @@ public:
         double y;
     };
 
-    Box(); // Empty constructor
+    Box() {} // Empty constructor
 
     Box(struct coord left, struct coord right, int face, int z)
     {
@@ -62,10 +62,13 @@ public:
         this->heightString = heights;
     }
 
-    Shelf();
+    Shelf() {
+        this->heightString = "";
+    }
 
     void addBox(Box box);
 
+    string updateString();
     string getString();
     string getHash();
 };

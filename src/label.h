@@ -1,5 +1,5 @@
-#ifndef LABEL_H
-#define LABEL_H
+#ifndef MAPLABEL_H
+#define MAPLABEL_H
 
 #include <string>
 #include <iostream>
@@ -14,26 +14,32 @@ class Label {
         int column;
         int height;
         string labelString;
+        Box box;
 
     public:
+        Label() {}
         virtual void decodeLabel(string label);
+        // virtual string getRight();
+        // virtual string getLeft();
+        // virtual string getTop();
+        // virtual string getBottom();
         Box getBox();
 };
 
 class LabelTypeA : public Label {
+
     public:
-        LabelTypeA(string label) {
-            this->labelString = label;
-
-        }
-
-        void decodeLabel(string label) {
+        LabelTypeA(string label, Box box) {
             
+            this->labelString = label;
+            this->box = box;
+            decodeLabel(label);
         }
-    
-        Label *getRightSide() {
 
-        }
+        void decodeLabel(string label);
+
+        string getRight();
+        
 };
 
 #endif

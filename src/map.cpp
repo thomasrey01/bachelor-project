@@ -6,8 +6,6 @@
 
 void Map::readCSV(fstream *file)
 {
-    vector<vector<string>> content;
-    vector<string> row;
     string line, word;
 
 
@@ -16,29 +14,39 @@ void Map::readCSV(fstream *file)
         float x0, x1, y0, y1, z;
         int face;
         int i = 0;
+
+        Shelf *shelf = new Shelf();
+        string labelstr;
+
         getline(*file, line); // discard the first line
         while (getline(*file, line))
         {
             i++;
-            row.clear();
             stringstream str(line);
 
             getline(str, word, ',');
 
-            LabelTypeA label = LabelTypeA(word);
+            labelstr = word;
+
 
             getline(str, word, ',');
             x0 = stof(word);
+
             getline(str, word, ',');
             x1 = stof(word);
+
             getline(str, word, ',');
             y0 = stof(word);
+
             getline(str, word, ',');
             y1 = stof(word);
+
             getline(str, word, ',');
             z = stof(word);
+
             getline(str, word, ',');
             face = stoi(word);
+
 
             Box::coord left;
             left.x = x0;
@@ -49,8 +57,19 @@ void Map::readCSV(fstream *file)
 
             Box box(left, right, face, z);
 
+            LabelTypeA label(labelstr, box);
+
+            // this->LabelMap.insert_or_assign(labelstr, &label);
+            this->LabelMap.insert_or_assign(labelstr, &label);
+
+            shelf->addBox(box);
+            if (i % 4 == 0) {
+                this->shelfMap.insert_or_assign(shelf->getHash(), shelf);
+                shelf = new Shelf();
+            }
+            cout << box.getHeight() << endl;
+            cout << shelf->getString() << endl;
+            break;
         }
-        cout << endl;
     }
-    
 }
