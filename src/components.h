@@ -7,6 +7,10 @@
 
 using namespace std;
 
+/*
+ * Declaration of the different components of the warehouse.
+*/
+
 class Box
 {
 
@@ -55,7 +59,7 @@ public:
         this->boxes = boxes;
         string heights = "";
 
-        for (int i = 0; i < boxes.size(); i++)
+        for (uint i = 0; i < boxes.size(); i++)
         {
             heights.append(to_string(boxes[i].getHeight()));
         }

@@ -9,6 +9,11 @@
 
 using namespace std;
 
+/*
+ * Node class decleration, using templating we can use any component class that has a getHash
+ * function.
+*/
+
 template <class T>
 class Node
 {
@@ -32,6 +37,10 @@ public:
     Node<T> *parentNode;
 };
 
+/*
+ * Derived class of Node, this one sits at the top and middle of the tree 
+*/
+
 template <class T>
 class MerkleNode : public Node<T>
 {
@@ -48,6 +57,10 @@ public:
         this->isLeaf = false;
     }
 };
+
+/**
+ * LeafNode class that derives from Node class, this represents the leaf of the tree where the components rest.
+*/
 
 template <class T>
 class MerkleLeaf : public Node<T>
@@ -122,11 +135,6 @@ class MerkleTree
 
     void preOrderPrint(Node<T> *node)
     {
-        /*
-         * This function doesn't work since dynamic casting always returns null.
-         * This is likely because I am casting them to the wrong class.
-         * TODO: Review and fix this stuff.
-        */
 
         if (node->isLeaf)
         {

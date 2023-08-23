@@ -67,9 +67,10 @@ void Map::readCSV(fstream *file)
                 this->shelfMap.insert_or_assign(shelf->getHash(), shelf);
                 shelf = new Shelf();
             }
-            cout << box.getHeight() << endl;
-            cout << shelf->getString() << endl;
-            break;
         }
     }
+}
+
+void Map::makeTree() {
+        return;
 }

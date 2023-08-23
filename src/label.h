@@ -7,6 +7,10 @@
 
 using namespace std;
 
+/*
+ * Class declaration for Label and LabelTypeA
+*/
+
 class Label {
     protected:
         char faclity;
@@ -19,10 +23,10 @@ class Label {
     public:
         Label() {}
         virtual void decodeLabel(string label);
-        // virtual string getRight();
-        // virtual string getLeft();
-        // virtual string getTop();
-        // virtual string getBottom();
+        virtual string getRight();
+        virtual string getLeft();
+        virtual string getTop();
+        virtual string getBottom();
         Box getBox();
 };
 
@@ -39,6 +43,13 @@ class LabelTypeA : public Label {
         void decodeLabel(string label);
 
         string getRight();
+        string getLeft();
+        string getTop();
+        string getBottom();
+
+    private:
+        const int maxHeight = 4;
+        const int maxLength = 15;
         
 };
 

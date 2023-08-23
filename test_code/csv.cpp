@@ -6,6 +6,8 @@
 
 using namespace std;
 
+// This file can be discarded, it was only used for testing purposes
+
 int main()
 {
     string fname;

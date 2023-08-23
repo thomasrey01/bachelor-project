@@ -22,7 +22,8 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
+    // The Map is the root class of this program.
+
     Map map(&file);
     
-    // map.readCSV(argv[1]);
 }

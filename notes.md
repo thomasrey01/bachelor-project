@@ -75,3 +75,13 @@ each aisle/row.
 Cycle counting
 UCLA-slam
 Tag related with this
+
+# 22/08/2023
+Can the floorplan be in the document?
+ordering of intro with regards to research
+ 
+future-proof
+in intro... all info (such as hashing and tree)
+write about why some solutions aren't suitable
+copyright free floorplan
+can use sticker
