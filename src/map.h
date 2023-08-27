@@ -16,10 +16,11 @@
 class Map {
     private:
         std::map<std::string, Shelf*> shelfMap;
+        std::vector<Shelf*> shelfVec;
         std::map<std::string, Label*> LabelMap;
         Label currentLabel;
         fstream *mapFile;
-        MerkleTree<Shelf> *tree;
+        MerkleTree<Shelf*> *tree;
         void readCSV(fstream *file);
         void makeTree();
         

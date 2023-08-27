@@ -1,5 +1,9 @@
+# Simple python script to fill csv with bounding box representation of map.
+
+
 import csv
 import yaml
+
 
 class WriteCSV:
     def __init__(self, path:str):
@@ -93,10 +97,3 @@ with open('./config.yaml') as f:
                 writer.write_row(height, x, y, length_shelf, 0, num_shelves, num_rows, z)
             z += aisle_spacing
     writer.close()
-                
-            
-        
-        
-
-            
-        

@@ -59,12 +59,12 @@ void Map::readCSV(fstream *file)
 
             LabelTypeA label(labelstr, box);
 
-            // this->LabelMap.insert_or_assign(labelstr, &label);
             this->LabelMap.insert_or_assign(labelstr, &label);
 
             shelf->addBox(box);
-            if (i % 4 == 0) {
+            if (i % 4 == 0) { // At every 4 iterations of boxes, we add them to a single shelf.
                 this->shelfMap.insert_or_assign(shelf->getHash(), shelf);
+                shelfVec.insert(shelfVec.end(), shelf);
                 shelf = new Shelf();
             }
         }
@@ -72,5 +72,5 @@ void Map::readCSV(fstream *file)
 }
 
 void Map::makeTree() {
-        return;
+    this->tree = new MerkleTree<Shelf*>
 }

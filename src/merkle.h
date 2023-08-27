@@ -19,7 +19,7 @@ class Node
 {
 public:
     virtual string getHash() { return this->hash; }
-    string makeHash(Node<T> *leftNode, Node<T> *rightNode)
+    string makeHash(Node<T*> *leftNode, Node<T*> *rightNode)
     {
         string concatedHashes = "";
         concatedHashes.append(leftNode->hash);
@@ -27,14 +27,14 @@ public:
         return md5(concatedHashes);
     }
 
-    string makeHash(T content)
+    string makeHash(T* content)
     {
-        return md5(to_string(content));
+        return md5(to_string(content->getHash()));
     }
 
     string hash;
     bool isLeaf;
-    Node<T> *parentNode;
+    Node<T*> *parentNode;
 };
 
 /*
@@ -42,13 +42,13 @@ public:
 */
 
 template <class T>
-class MerkleNode : public Node<T>
+class MerkleNode : public Node<T*>
 {
     
 public:
-    Node<T> *leftNode;
-    Node<T> *rightNode;  
-    MerkleNode(Node<T> *leftNode, Node<T> *rightNode, Node<T> *parentNode)
+    Node<T*> *leftNode;
+    Node<T*> *rightNode;  
+    MerkleNode(Node<T*> *leftNode, Node<T*> *rightNode, Node<T*> *parentNode)
     {
         this->leftNode = leftNode;
         this->rightNode = rightNode;
@@ -63,15 +63,15 @@ public:
 */
 
 template <class T>
-class MerkleLeaf : public Node<T>
+class MerkleLeaf : public Node<T*>
 {
 public:
-    T content;
+    T* content;
 
-    MerkleLeaf(T content, Node<T> *parentNode)
+    MerkleLeaf(T *content, Node<T*> *parentNode)
     {
         this->content = content;
-        this->hash = content.getHash();
+        this->hash = content->getHash();
         this->isLeaf = true;
         this->parentNode = parentNode;
     }
@@ -81,15 +81,22 @@ public:
             cout << "No changes detected" << endl;
             return;
         }
-        
+        updateTree(this);
     }
 
 private:
-    void updateTree(Node<T> *node) {
+    void updateTree(Node<T*> *node) {
         if (node == nullptr) {
             return;
         }
-        
+        if (node->isLeaf) {
+            MerkleLeaf<T*> *leaf = dynamic_cast<MerkleLeaf<T*>*>(node);
+            this->hash = leaf->content.getHash();
+        } else {
+            MerkleNode<T*> *node_ptr = dynamic_cast<MerkleNode<T*>*>(node);
+            this->hash = this->makeHash(node_ptr->leftNode, node_ptr->rightNode);
+        }
+        updateTree(this->parentNode);
     }
 };
 
@@ -98,30 +105,30 @@ class MerkleTree
 {
     
 
-    Node<T> *makeMerkleRoot(vector<T> numbers)
+    Node<T> *makeMerkleRoot(vector<T*> numbers)
     {
         int numIter = numbers.size();
         int depth = ceil(log2(numbers.size()));
-        vector<Node<T>*> children;
+        vector<Node<T*>*> children;
         for (auto num : numbers)
         {
-            MerkleLeaf<T>* m = new MerkleLeaf<T>(num, nullptr);
+            MerkleLeaf<T*>* m = new MerkleLeaf<T*>(num, nullptr);
             this->leafMap.insert_or_assign(m->hash, m);
             children.insert(children.end(), m);
         }
         for (int i = 0; i < depth; i++)
         {
-            vector<Node<T>*> newChildren;
+            vector<Node<T*>*> newChildren;
             for (int j = 0; j < numIter; j += 2)
             {
                 if (j + 1 == numIter)
                 {
-                    MerkleNode<T> *m = new MerkleNode<T>(children[j], children[j], nullptr);
+                    MerkleNode<T*> *m = new MerkleNode<T*>(children[j], children[j], nullptr);
                     children[j]->parentNode = m;
                     newChildren.insert(newChildren.end(), m);
                     break;
                 }
-                MerkleNode<T> *m = new MerkleNode<T>(children[j], children[j+1], nullptr);
+                MerkleNode<T*> *m = new MerkleNode<T*>(children[j], children[j+1], nullptr);
                 children[j]->parentNode = m;
                 children[j+1]->parentNode = m;
                 newChildren.insert(newChildren.end(), m);
@@ -133,24 +140,24 @@ class MerkleTree
         return children[0];
     }
 
-    void preOrderPrint(Node<T> *node)
+    void preOrderPrint(Node<T*> *node)
     {
 
         if (node->isLeaf)
         {
-            MerkleLeaf<T> *leaf = dynamic_cast<MerkleLeaf<T>*>(node);
+            MerkleLeaf<T*> *leaf = dynamic_cast<MerkleLeaf<T*>*>(node);
             cout << "leaf content: " << leaf->content << endl;
             return;
         }
         cout << node->getHash() << endl;
-        MerkleNode<T> *node_ptr = dynamic_cast<MerkleNode<T>*>(node);
+        MerkleNode<T*> *node_ptr = dynamic_cast<MerkleNode<T*>*>(node);
         preOrderPrint(node_ptr->leftNode);
         preOrderPrint(node_ptr->rightNode);
     }
 
-    void clearTree(Node<T>* node) {
+    void clearTree(Node<T*>* node) {
         if (!node->isLeaf) {
-            MerkleNode<T> *node_ptr = dynamic_cast<MerkleNode<T>*>(node);
+            MerkleNode<T*> *node_ptr = dynamic_cast<MerkleNode<T*>*>(node);
             if (node_ptr->leftNode != node_ptr->rightNode) {
                 clearTree(node_ptr->leftNode);
                 clearTree(node_ptr->rightNode);
@@ -163,14 +170,14 @@ class MerkleTree
 
 public:
 
-    Node<T> *root;
+    Node<T*> *root;
     string hash;
 
-    map<string, MerkleLeaf<T>*> leafMap;
+    map<string, MerkleLeaf<T*>*> leafMap;
 
     MerkleTree(vector<T> numbers)
     {
-        Node<T> *root = makeMerkleRoot(numbers);
+        Node<T*> *root = makeMerkleRoot(numbers);
         this->root = root;
         this->hash = root->getHash();
     }
