@@ -1,5 +1,6 @@
 #include "map.h"
 #include "label.h"
+#include "signal.h"
 #include <iostream>
 #include <vector>
 #include <sstream>
@@ -62,15 +63,36 @@ void Map::readCSV(fstream *file)
             this->LabelMap.insert_or_assign(labelstr, &label);
 
             shelf->addBox(box);
+            if (i == 1) {
+                this->currentLabel = label;
+            }
             if (i % 4 == 0) { // At every 4 iterations of boxes, we add them to a single shelf.
                 this->shelfMap.insert_or_assign(shelf->getHash(), shelf);
                 shelfVec.insert(shelfVec.end(), shelf);
                 shelf = new Shelf();
             }
         }
+        delete(shelf);
     }
 }
 
 void Map::makeTree() {
-    this->tree = new MerkleTree<Shelf*>
+    this->tree = new MerkleTree<Shelf>(shelfVec);
+}
+
+
+void Map::clearMap() {
+    this->tree->clearTree();
+    delete (this->tree);
+    for (auto shelf : this->shelfVec) {
+        delete(shelf);
+    }
+}
+
+string Map::getLabelString() {
+    return this->currentLabel.labelString;
+}
+
+string Map::getRootHash() {
+    return this->tree->getHash();
 }

@@ -17,7 +17,6 @@ class Label {
         int aisle;
         int column;
         int height;
-        string labelString;
         Box box;
 
     public:
@@ -28,6 +27,7 @@ class Label {
         virtual string getTop();
         virtual string getBottom();
         Box getBox();
+        string labelString;
 };
 
 class LabelTypeA : public Label {
