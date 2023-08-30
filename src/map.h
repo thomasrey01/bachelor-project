@@ -19,10 +19,9 @@ class Map {
         std::vector<Shelf*> shelfVec;
         std::map<std::string, Label*> LabelMap;
         fstream *mapFile;
-        Label currentLabel;
+        Label *currentLabel;
         MerkleTree<Shelf> *tree;
         void readCSV(fstream *file);
-        void CLI();
         void makeTree();
         
 
@@ -36,6 +35,12 @@ class Map {
         string getRootHash();
         string getLabelString();
         void clearMap();
+        void printTree();
+        void moveUp();
+        void moveDown();
+        void moveRight();
+        void moveLeft();
+        void makeChange();
 };
 
 #endif

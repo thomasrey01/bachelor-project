@@ -3,6 +3,7 @@
 #include "signal.h"
 #include <iostream>
 #include <vector>
+#include <iterator>
 #include <sstream>
 
 void Map::readCSV(fstream *file)
@@ -58,9 +59,9 @@ void Map::readCSV(fstream *file)
 
             Box box(left, right, face, z);
 
-            LabelTypeA label(labelstr, box);
+            LabelTypeA *label = new LabelTypeA(labelstr, box);
 
-            this->LabelMap.insert_or_assign(labelstr, &label);
+            this->LabelMap.insert_or_assign(labelstr, label);
 
             shelf->addBox(box);
             if (i == 1) {
@@ -87,12 +88,73 @@ void Map::clearMap() {
     for (auto shelf : this->shelfVec) {
         delete(shelf);
     }
+    for (auto [key, value] : this->LabelMap) {
+        delete(value);
+    }
 }
 
 string Map::getLabelString() {
-    return this->currentLabel.labelString;
+    return this->currentLabel->labelString;
 }
 
 string Map::getRootHash() {
     return this->tree->getHash();
+}
+
+void Map::printTree() {
+    this->tree->preOrderPrint();
+}
+
+void Map::moveUp() {
+    LabelTypeA *labelA = dynamic_cast<LabelTypeA*>(this->currentLabel);
+    string nextLabelString = labelA->getTop();
+    if (nextLabelString != "") {
+        LabelTypeA *nextLabel = dynamic_cast<LabelTypeA*>(this->LabelMap[nextLabelString]);
+        this->currentLabel = nextLabel;
+    } else {
+        cout << "No available label" << endl;
+    }
+}
+
+void Map::moveDown() {
+    LabelTypeA *labelA = dynamic_cast<LabelTypeA*>(this->currentLabel);
+    string nextLabelString = labelA->getBottom();
+    if (nextLabelString != "") {
+        LabelTypeA *nextLabel = dynamic_cast<LabelTypeA*>(this->LabelMap[nextLabelString]);
+        this->currentLabel = nextLabel;
+    } else {
+        cout << "No available label" << endl;
+    }
+}
+
+void Map::moveRight() {
+    LabelTypeA *labelA = dynamic_cast<LabelTypeA*>(this->currentLabel);
+    string nextLabelString = labelA->getRight();
+    if (nextLabelString != "") {
+        LabelTypeA *nextLabel = dynamic_cast<LabelTypeA*>(this->LabelMap[nextLabelString]);
+        this->currentLabel = nextLabel;
+    } else {
+        cout << "No available label" << endl;
+    }
+}
+
+void Map::moveLeft() {
+    LabelTypeA *labelA = dynamic_cast<LabelTypeA*>(this->currentLabel);
+    string nextLabelString = labelA->getLeft();
+    if (nextLabelString != "") {
+        LabelTypeA *nextLabel = dynamic_cast<LabelTypeA*>(this->LabelMap[nextLabelString]);
+        this->currentLabel = nextLabel;
+    } else {
+        cout << "No available label" << endl;
+    }
+}
+
+void Map::makeChange() {
+    auto it = this->tree->leafMap.begin();
+    MerkleLeaf<Shelf> *leaf = dynamic_cast<MerkleLeaf<Shelf>*>(it->second);
+    Shelf *shelf = leaf->content;
+    string shelfString = shelf->getString();
+    shelf->updateString(shelfString.append("1"));
+    leaf->updateTree();
+    tree->updateHash();
 }

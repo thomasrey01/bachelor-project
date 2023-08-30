@@ -83,7 +83,7 @@ public:
     ~MerkleLeaf() {}
 
     void updateTree() {
-        if (this->hash == content.getHash()) {
+        if (this->hash == content->getHash()) {
             cout << "No changes detected" << endl;
             return;
         }
@@ -97,15 +97,18 @@ private:
         }
         if (node->isLeaf) {
             MerkleLeaf<T> *leaf = dynamic_cast<MerkleLeaf<T>*>(node);
-            this->hash = leaf->content.getHash();
+            node->hash = leaf->content->getHash();
         } else {
             MerkleNode<T> *node_ptr = dynamic_cast<MerkleNode<T>*>(node);
-            this->hash = this->makeHash(node_ptr->leftNode, node_ptr->rightNode);
+            node->hash = node->makeHash(node_ptr->leftNode, node_ptr->rightNode);
         }
-        updateTree(this->parentNode);
+        updateTree(node->parentNode);
     }
 };
 
+/**
+ * Merkle Tree definition. 
+*/
 template <class T>
 class MerkleTree
 {
@@ -152,7 +155,7 @@ class MerkleTree
         if (node->isLeaf)
         {
             MerkleLeaf<T> *leaf = dynamic_cast<MerkleLeaf<T>*>(node);
-            cout << "leaf content: " << leaf->content << endl;
+            cout << "leaf content: " << leaf->content->getString() << endl;
             return;
         }
         cout << node->getHash() << endl;
@@ -203,6 +206,10 @@ public:
  
     void clearTree() {
         clearTree(this->root);
+    }
+
+    void updateHash() {
+        this->hash = this->root->getHash();
     }
 
 };

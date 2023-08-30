@@ -7,15 +7,15 @@
 void LabelTypeA::decodeLabel(string label) {
     this->faclity = label[0];
     string aisle = "";
-    aisle.append(to_string(label[1]));
-    aisle.append(to_string(label[2]));
+    aisle.push_back(label[1]);
+    aisle.push_back(label[2]);
     this->aisle = stoi(aisle);
     string column = "";
-    column.append(to_string(label[4]));
-    column.append(to_string(label[5]));
+    column.push_back(label[4]);
+    column.push_back(label[5]);
     this->column = stoi(column);
     string height = "";
-    height.append(to_string(label[7]));
+    height.push_back(label[7]);
     this->height = stoi(height);
 }
 
@@ -38,7 +38,7 @@ string LabelTypeA::getRight() {
         return "";
     }
     string resString = "";
-    resString.append(to_string(this->faclity));
+    resString.push_back(this->faclity);
 
     if (this->aisle < 10) {
         resString.append("0");
@@ -58,11 +58,11 @@ string LabelTypeA::getRight() {
 }
 
 string LabelTypeA::getLeft() {
-    if (this->column <= 0) {
+    if (this->column <= 1) {
         return "";
     }
     string resString = "";
-    resString.append(to_string(this->faclity));
+    resString.push_back(this->faclity);
 
     if (this->aisle < 10) {
         resString.append("0");
@@ -82,11 +82,11 @@ string LabelTypeA::getLeft() {
 }
 
 string LabelTypeA::getTop() {
-    if (this->height >= this->maxLength) {
+    if (this->height >= this->maxHeight) {
         return "";
     }
     string resString = "";
-    resString.append(to_string(this->faclity));
+    resString.push_back(this->faclity);
 
     if (this->aisle < 10) {
         resString.append("0");
@@ -106,11 +106,11 @@ string LabelTypeA::getTop() {
 }
 
 string LabelTypeA::getBottom() {
-    if (this->height <= 0) {
+    if (this->height <= 1) {
         return "";
     }
     string resString = "";
-    resString.append(to_string(this->faclity));
+    resString.push_back(this->faclity);
 
     if (this->aisle < 10) {
         resString.append("0");

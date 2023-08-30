@@ -85,3 +85,7 @@ in intro... all info (such as hashing and tree)
 write about why some solutions aren't suitable
 copyright free floorplan
 can use sticker
+
+# 30/08/2023
+Experiments part.
+What to submit on brightspace

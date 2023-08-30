@@ -41,3 +41,7 @@ void Shelf::addBox(Box box)
     this->boxes.insert(boxes.end(), box);
     this->heightString.append(to_string(box.getHeight()));
 }
+
+void Shelf::updateString(string newString) {
+    this->heightString = newString;
+}

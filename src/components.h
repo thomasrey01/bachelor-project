@@ -72,7 +72,7 @@ public:
 
     void addBox(Box box);
 
-    string updateString();
+    void updateString(string newString);
     string getString();
     string getHash();
 };

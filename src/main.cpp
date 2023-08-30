@@ -43,6 +43,17 @@ int main(int argc, char *argv[])
         if (action == "exit") {
             break;
         }
+        if (action == "up") {
+            map.moveUp();
+        } else if (action == "down") {
+            map.moveDown();
+        } else if (action == "left") {
+            map.moveLeft();
+        } else if (action == "right") {
+            map.moveRight();
+        } else if (action == "change") {
+            map.makeChange();
+        }
     }
     map.clearMap();
 }
