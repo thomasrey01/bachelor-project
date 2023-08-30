@@ -39,11 +39,11 @@ int main(int argc, char *argv[])
             cout << "Type \"left\" to move to the left label" << endl;
             cout << "Type \"up\" to move to the top label" << endl;
             cout << "Type \"down\" to move to the bottom label" << endl;
+            cout << "Type \"change\" to change a node" << endl;
         }
         if (action == "exit") {
             break;
-        }
-        if (action == "up") {
+        } else if (action == "up") {
             map.moveUp();
         } else if (action == "down") {
             map.moveDown();
@@ -53,7 +53,10 @@ int main(int argc, char *argv[])
             map.moveRight();
         } else if (action == "change") {
             map.makeChange();
+        } else {
+            cout << "Unknown command" << endl;
         }
+        cout << endl;
     }
     map.clearMap();
 }
