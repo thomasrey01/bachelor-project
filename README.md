@@ -5,6 +5,7 @@
 This work represents a proof of concept to an efficient map representation and inventory updating to ultimately be used in an autonomous drone. 
 
 ### Compiling and running
+The C++ version used in this project is C++ 17.
 To compile first create and run the Makefile using:
 ```
 cmake .
