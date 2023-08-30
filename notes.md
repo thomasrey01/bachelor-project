@@ -89,3 +89,11 @@ can use sticker
 # 30/08/2023
 Experiments part.
 What to submit on brightspace
+
+investigating data types (size of hierarchies)
+input size (graph)
+running time complexity
+specs
+Implementation validation (for experiments)
+also final email
+

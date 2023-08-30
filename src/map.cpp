@@ -5,9 +5,13 @@
 #include <vector>
 #include <iterator>
 #include <sstream>
+#include <chrono>
+
+using namespace std::chrono;
 
 void Map::readCSV(fstream *file)
 {
+    auto start = high_resolution_clock::now();
     string line, word;
 
 
@@ -75,6 +79,13 @@ void Map::readCSV(fstream *file)
         }
         delete(shelf);
     }
+    auto stop = high_resolution_clock::now();
+
+    auto duration = duration_cast<microseconds>(stop - start);
+
+    cout << endl;
+    cout << "Time taken to read input: " << duration.count() << " microseconds" << endl;
+    cout << endl;
 }
 
 void Map::makeTree() {
@@ -150,6 +161,7 @@ void Map::moveLeft() {
 }
 
 void Map::makeChange() {
+    auto start = high_resolution_clock::now();
     auto it = this->tree->leafMap.begin();
     MerkleLeaf<Shelf> *leaf = dynamic_cast<MerkleLeaf<Shelf>*>(it->second);
     Shelf *shelf = leaf->content;
@@ -157,4 +169,10 @@ void Map::makeChange() {
     shelf->updateString(shelfString.append("1"));
     leaf->updateTree();
     tree->updateHash();
+    auto stop = high_resolution_clock::now();
+
+    auto duration = duration_cast<microseconds>(stop - start);
+
+    cout << endl;
+    cout << "Time taken for updating tree: " << duration.count() << " microseconds" << endl;
 }
